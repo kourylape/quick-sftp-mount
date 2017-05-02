@@ -1,0 +1,19 @@
+{
+	"bookmarks": [
+		{
+			"name": "site-number-1",
+			"host": "127.0.0.1",
+			"port": 2222,
+			"user": "denevents-staging",
+			"pass": "pwwithescaped\"quotes",
+      "path":  "wp-includes/css/"
+		}, {
+			"name": "site-number-2",
+			"host": "127.0.0.2",
+			"port": 22,
+			"user": "awesomeuser",
+			"key": "/home/users/me/.ssh/id_rsa",
+	    "path": "/"
+		}
+	]
+}
