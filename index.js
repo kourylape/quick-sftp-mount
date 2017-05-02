@@ -110,7 +110,7 @@ const mountFunction = (bookmark) => {
         return '\\' + match;
       });
 
-      cmd = 'echo '+cleanPass+' | sshfs -o ssh_command=\'ssh -p '+bm.port+' -o ConnectTimeout=8,PreferredAuthentications=password,StrictHostKeyChecking=no\',password_stdin,ro,reconnect '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
+      cmd = 'echo '+cleanPass+' | sshfs -o ssh_command=\'ssh -p '+bm.port+' -o ConnectTimeout=8,PreferredAuthentications=password,StrictHostKeyChecking=no\',password_stdin,reconnect '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
     }
 
     //run the command
