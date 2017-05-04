@@ -6,7 +6,9 @@ const settings = require('./settings');
 const colors = require('colors');
 const Table = require('cli-table');
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 const exec = require('child_process').exec;
+const homedir = require('os').homedir();
 
 
 const makeRed = (txt) => {
@@ -96,22 +98,28 @@ const mountFunction = (bookmark) => {
     const bm = found[0];
 
     // create mount directory
-    const mountDir = '/Volumes/' + bm.name
+    const mountDir = homedir + '/.sftp-mounts/' + bm.name;
     if (!fs.existsSync(mountDir)) {
-      fs.mkdirSync(mountDir);
+      mkdirp(mountDir, function (err) {
+        if (err) {
+          console.error(err)
+          process.exit(-1);
+        }
+      });
     }
 
     //build the command
     let cmd;
     if(bm.hasOwnProperty('key')) {
-      cmd = 'sshfs -o IdentityFile='+bm.key+',reconnect -p '+bm.port+', '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
+      cmd = 'sshfs -o IdentityFile='+bm.key+',allow_other,reconnect,workaround=truncate:rename -p '+bm.port+' '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
     } else {
       const cleanPass = bm.pass.replace(/([^0-9a-zA-Z])/g, function(match) {
         return '\\' + match;
       });
-
       cmd = 'echo '+cleanPass+' | sshfs -o ssh_command=\'ssh -p '+bm.port+' -o ConnectTimeout=8,PreferredAuthentications=password,StrictHostKeyChecking=no\',password_stdin,reconnect '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
     }
+    //debug
+    //console.log(cmd);
 
     //run the command
     exec(cmd, function(error, stdout, stderr) {
@@ -142,7 +150,7 @@ const unmountFunction = (bookmark) => {
     const bm = found[0];
 
     // get mount directory
-    const mountDir = '/Volumes/' + bm.name
+    const mountDir = homedir + '/.sftp-mounts/' + bm.name;
     if (!fs.existsSync(mountDir)) {
       makeRed(bm.name + ' does not seem to be mounted!');
       process.exit(-1);
