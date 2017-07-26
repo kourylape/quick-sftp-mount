@@ -116,7 +116,7 @@ const mountFunction = (bookmark) => {
       const cleanPass = bm.pass.replace(/([^0-9a-zA-Z])/g, function(match) {
         return '\\' + match;
       });
-      cmd = 'echo '+cleanPass+' | sshfs -o ssh_command=\'ssh -p '+bm.port+' -o ConnectTimeout=8,PreferredAuthentications=password,StrictHostKeyChecking=no\',password_stdin,reconnect '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
+      cmd = 'echo '+cleanPass+' | sshfs -o ssh_command=\'ssh -p '+bm.port+' -o ConnectTimeout=8,PreferredAuthentications=password,StrictHostKeyChecking=no\',password_stdin,reconnect,allow_other,workaround=truncate:rename '+bm.user+'@'+bm.host+':'+bm.path+' '+mountDir;
     }
     //debug
     //console.log(cmd);
