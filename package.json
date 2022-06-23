@@ -15,9 +15,9 @@
   "license": "ISC",
   "private": true,
   "dependencies": {
-    "cli-table": "^0.3.1",
-    "colors": "^1.1.2",
-    "commander": "^2.9.0",
-    "mkdirp": "^0.5.1"
+    "cli-table": "^0.3.11",
+    "colors": "^1.4.0",
+    "commander": "^9.3.0",
+    "mkdirp": "^1.0.4"
   }
 }
